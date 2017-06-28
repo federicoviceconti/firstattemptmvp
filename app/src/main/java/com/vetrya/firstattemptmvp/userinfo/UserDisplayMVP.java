@@ -1,5 +1,7 @@
 package com.vetrya.firstattemptmvp.userinfo;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.vetrya.firstattemptmvp.http.User;
 import com.vetrya.firstattemptmvp.root.BasePresenter;
 import com.vetrya.firstattemptmvp.root.BaseView;
@@ -20,6 +22,9 @@ public interface UserDisplayMVP {
 
     interface Presenter extends BasePresenter {
         <T extends View> void setView(T base);
+        void setAdapter(RecyclerView recyclerView);
+        boolean choiceMenuItem(int idItem);
+        boolean onItemDownloadClicked();
     }
 
     interface Model{

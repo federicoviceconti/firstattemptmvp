@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">FirstAttemptMVP</string>
     <string name="lorem_ipsum">Lorem ipsum</string>
+    <string name="download">Download</string>
 </resources>
