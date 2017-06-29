@@ -1,5 +1,7 @@
 package com.vetrya.firstattemptmvp.http;
 
+import com.vetrya.firstattemptmvp.http.model.Data;
+
 import retrofit2.http.GET;
 import rx.Observable;
 
@@ -10,5 +12,5 @@ import rx.Observable;
 
 public interface UserDisplayHttpApi {
     @GET("/api/users")
-    Observable<User> getUser();
+    Observable<Data> getUser();
 }

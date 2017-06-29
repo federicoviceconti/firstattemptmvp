@@ -1,6 +1,6 @@
 package com.vetrya.firstattemptmvp.userinfo;
 
-import com.vetrya.firstattemptmvp.http.User;
+import com.vetrya.firstattemptmvp.http.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +10,10 @@ import java.util.List;
  * If you find any bugs, contact me!
  */
 
-public class UserDisplayList {
-    private final List<User> userList;
+class UserDisplayList {
+    private List<User> userList;
 
-    public UserDisplayList() {
+    UserDisplayList() {
         userList = new ArrayList<>();
     }
 
@@ -21,7 +21,25 @@ public class UserDisplayList {
         return new ArrayList<>(userList);
     }
 
-    public void add(User user) {
+    void add(User user) {
         userList.add(0, user);
+    }
+
+    User getUser(int position) {
+        return userList.get(position);
+    }
+
+    int getSize(){
+        return userList.size();
+    }
+
+    public void setList(List<User> list) {
+        this.userList = list;
+    }
+
+    public void addUsers(List<User> users) {
+        if (users != null){
+            userList.addAll(users);
+        }
     }
 }

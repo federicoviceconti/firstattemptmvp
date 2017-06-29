@@ -7,6 +7,7 @@ import dagger.Provides;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -32,7 +33,8 @@ public class UserDisplayHttpModule {
     Retrofit providesRetrofit(){
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(providesClient())
+                //.client(providesClient()) --> cause unexpected exception
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

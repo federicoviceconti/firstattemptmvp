@@ -1,7 +1,7 @@
 package com.vetrya.firstattemptmvp.root;
 
-import android.app.Activity;
-
+import com.vetrya.firstattemptmvp.http.UserDisplayHttpModule;
+import com.vetrya.firstattemptmvp.userinfo.UserDisplayActivity;
 import com.vetrya.firstattemptmvp.userinfo.UserDisplayModule;
 
 import javax.inject.Singleton;
@@ -14,7 +14,7 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = {ApplicationModule.class, UserDisplayModule.class})
+@Component(modules = {ApplicationModule.class, UserDisplayModule.class, UserDisplayHttpModule.class})
 public interface ApplicationComponent {
-    void inject(Activity activity);
+    void inject(UserDisplayActivity activity);
 }

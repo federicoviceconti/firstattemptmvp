@@ -1,5 +1,7 @@
 package com.vetrya.firstattemptmvp.userinfo;
 
+import com.vetrya.firstattemptmvp.http.UserDisplayHttpApi;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -14,13 +16,19 @@ import dagger.Provides;
 public class UserDisplayModule {
     @Provides
     @Singleton
-    public UserDisplayMVP.Presenter providesUserDisplayPresenter(){
-        return new UserDisplayPresenter(providesUserDisplayModel());
+    UserDisplayMVP.Presenter providesUserDisplayPresenter(UserDisplayMVP.Model model){
+        return new UserDisplayPresenter(model);
     }
 
     @Provides
     @Singleton
-    public UserDisplayMVP.Model providesUserDisplayModel(){
-        return new UserDisplayModel();
+    UserDisplayMVP.Model providesUserDisplayModel(Repository repo){
+        return new UserDisplayModel(repo);
+    }
+
+    @Provides
+    @Singleton
+    Repository provideUserDisplayRepository(UserDisplayHttpApi userDisplayHttpApi) {
+        return new UserDisplayRepository(userDisplayHttpApi);
     }
 }

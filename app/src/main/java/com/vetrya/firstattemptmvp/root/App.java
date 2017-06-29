@@ -2,6 +2,7 @@ package com.vetrya.firstattemptmvp.root;
 
 import android.app.Application;
 
+import com.vetrya.firstattemptmvp.http.UserDisplayHttpModule;
 import com.vetrya.firstattemptmvp.userinfo.UserDisplayModule;
 
 /**
@@ -19,6 +20,7 @@ public class App extends Application {
         component = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .userDisplayModule(new UserDisplayModule())
+                .userDisplayHttpModule(new UserDisplayHttpModule())
                 .build();
     }
 

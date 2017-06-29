@@ -1,18 +1,21 @@
 package com.vetrya.firstattemptmvp.userinfo;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.vetrya.firstattemptmvp.R;
+import com.vetrya.firstattemptmvp.http.model.User;
+import com.vetrya.firstattemptmvp.root.App;
 import com.vetrya.firstattemptmvp.root.Field;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,22 +30,27 @@ import butterknife.Unbinder;
 
 public class UserDisplayActivity extends AppCompatActivity implements UserDisplayMVP.View {
 
+    UserDisplayAdapterInterface.View adapter;
     @Inject UserDisplayMVP.Presenter presenterUserDisplay;
     @BindView(R.id.user_display_recycler) RecyclerView recycler;
     Unbinder unbind;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
         unbind = ButterKnife.bind(this);
+        ((App)getApplication()).getComponent().inject(this);
 
         initialize();
+
     }
 
     private void initialize() {
-        presenterUserDisplay.setAdapter(recycler);
-        recycler.setLayoutManager(new LinearLayoutManager(this));
+        presenterUserDisplay.setView(this);
+        adapter = new UserDisplayAdapter(this);
+        recycler.setAdapter((RecyclerView.Adapter) adapter);
+        recycler.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
     }
 
     @Override
@@ -60,7 +68,6 @@ public class UserDisplayActivity extends AppCompatActivity implements UserDispla
     @Override
     protected void onStart() {
         super.onStart();
-        presenterUserDisplay.setView(this);
     }
 
     @Override
@@ -92,7 +99,27 @@ public class UserDisplayActivity extends AppCompatActivity implements UserDispla
     }
 
     @Override
+    public void showAnErrorOccurred() throws RuntimeException {
+        Toast.makeText(this, Field.AN_ERROR_OCCURRED, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void showNoUserFound() throws RuntimeException {
         Toast.makeText(this, Field.NO_USER_INFO_DOWNLOADED, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void refreshSingleItem(int position) {
+        adapter.refreshItemAdded(position);
+    }
+
+    @Override
+    public void refreshAllItems() {
+        adapter.refreshDataSet();
+    }
+
+    @Override
+    public void addUsersList(List<User> user) {
+        adapter.addUsersList(user);
     }
 }
